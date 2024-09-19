@@ -11,8 +11,26 @@ def random_date():
     # random_day - 1 because if not day 1 == Jan 02 because of the starting date
     random_date = start_date + datetime.timedelta(days=random_day - 1)
 
-    month = random_date.strftime('%b') # Turn the month number into a string 
-    day = random_date.day
+    # Turns month into a str from date
+    month_date = random_date.strftime('%b') + " " + str(random_date.day)
 
-    return month,day
+    return month_date
+
+while True:
+    try:
+        print("How Many birthdays shall i generate? (Max 100)")
+        n = int(input("> "))
+    except Exception as e:
+        print("Error: ", e, end='\n')
+    else:
+        break
+
+def get_repeated_dates():
+    dates = []
+    for x in range(n):
+        dates.append(x)
+
+    
+
+
 
