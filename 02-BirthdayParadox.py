@@ -16,18 +16,6 @@ def get_birthdays():
 
     return birthday
 
-
-while True:
-    try:
-        print("Birthday Paradox, by AI Sweigart al@inventwithpython.com")
-        print("How many birthday shall i generate (Max 100)")
-        n = int(input('> '))
-    except Exception as e:
-        print(f"Error:{e}")
-    else:
-        break
-
-
 def get_match():
     birthdays = []
     for _ in range(n):
@@ -40,6 +28,17 @@ def get_match():
             for b, birthday_B in enumerate(birthdays[a+1:]):
                 if birthday_A == birthday_B:
                     return birthday_A
+                
+
+while True:
+    try:
+        print("Birthday Paradox, by AI Sweigart al@inventwithpython.com")
+        print("How many birthday shall i generate (Max 100)")
+        n = int(input('> '))
+    except Exception as e:
+        print(f"Error:{e}")
+    else:
+        break
 
     
 if get_match():

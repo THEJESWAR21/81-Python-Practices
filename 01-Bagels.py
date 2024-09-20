@@ -8,10 +8,13 @@
 
 import random
 
-clues = []
+
+# Generates a random 3 digit value
 ans = str(random.randrange(100,999))
+guesses = 11
 
 def main():
+    clues = []
     print("""
 Bagels, a deductive logic game.
 By Al Sweigart al@inventwithpython.com
@@ -24,8 +27,9 @@ When I say:    That means:
 I have thought up a number.
 You have 10 guesses to get it.
 """)
-    
-    for chances in range(1,11):
+
+    # Provides only avaiable 10 guesses
+    for chances in range(1,guesses):
         print(f"Guess #{chances}")
         guess = input("> ")
 
@@ -37,15 +41,16 @@ You have 10 guesses to get it.
                 # One digit is correct but in the incorrent position
                 clues.append("Pico")
 
+
         if guess == ans:
             print("You got it!")
             end_game()
             break
+        # Only Bagels get appended into the list
         elif len(clues) == 0:
             clues.append("Bagels")
         
         print(*clues)
-        clues.clear()
 
 
 def end_game():
@@ -55,11 +60,13 @@ def end_game():
         main()
     elif end_game == 'no':
         exit()
-
-
+        
 if "__main__" == __name__:
+    # Exception Handling
     try:
         main()
         print("Actual Answer: ",ans)
     except Exception as e:
         print(f"An error occured: {e}")
+    else:
+        end_game()
