@@ -1,76 +1,87 @@
 import random, datetime
 
+class Birthday:
+    def __init__(self) -> None:
+        self.date = self.generate_birthdays()
+    
+    def generate_birthdays(self):
+         # Generating a random day from the year
+        random_day = random.randint(1,365)
+        start_date = datetime.date(2024,1,1)
+        # incrimenting the start_date by the random_day to get a random date
+        # random_day - 1 because if not day 1 == Jan 02 because of the starting date
+        random_date = start_date + datetime.timedelta(days=random_day - 1)
+        return random_date.strftime('%b') + " " + str(random_date.day)
+ 
+ 
 
-def get_birthdays():
-    # Generating a random day from the year
-    random_day = random.randint(1,365)
+class BirthdaySimulation:
+    def __init__(self, num_people):
+        self.num_people = num_people
+        self.birthdays = []
 
-    start_date = datetime.date(2024,1,1)
+    def generate_birthday(self):
+        self.birthdays = [Birthday().date for _ in range(self.num_people)]
+    
+    def get_match(self):
+        self.generate_birthday()
+        if len(self.birthdays) == len(set(self.birthdays)):
+            return None
+        else:
+            # For every item in brithday_A the item after the first interate through to check whether that item exists or not
+            for a, birthday_A in enumerate(self.birthdays):
+                for b, birthday_B in enumerate(self.birthdays[a + 1:]):
+                    if birthday_A == birthday_B:
+                        return birthday_A
+                    
+    def run_simulation(self, num_simulations=100_000):
+        match_found = 0
+        print("Generating", self.num_people, "random birthdays", num_simulations, "times...")
+        input("Press enter to begin...")
 
-    # incrimenting the start_date by the random_day to get a random date
-    # random_day - 1 because if not day 1 == Jan 02 because of the starting date
-    random_date = start_date + datetime.timedelta(days=random_day - 1)
+        for i in range(num_simulations):
+            if i % 10000 == 0:
+                print(i,"Simulation run....")
+            
+            if self.get_match() is not None:
+                match_found += 1
 
-    # Turns the month number to a string and concatenates it with the day
-    birthday = random_date.strftime('%b') + " " + str(random_date.day)
+        print(f"{num_simulations} simulations run.")
+        print("100,000 simulations run.")
 
-    return birthday
+        percentage = (match_found / num_simulations) * 100
 
-def get_match():
-    birthdays = []
-    for _ in range(n):
-        birthdays.append(get_birthdays())
-    if len(birthdays) == len(set(birthdays)):
-        return None
-    else:
-        # For every item in brithday_A the item after the first interate through to check whether that item exists or not
-        for a, birthday_A in enumerate(birthdays):
-            for b, birthday_B in enumerate(birthdays[a+1:]):
-                if birthday_A == birthday_B:
-                    return birthday_A
-                
-
-while True:
-    try:
-        print("Birthday Paradox, by AI Sweigart al@inventwithpython.com")
-        print("How many birthday shall i generate (Max 100)")
-        n = int(input('> '))
-    except Exception as e:
-        print(f"Error:{e}")
-    else:
-        break
-
-        
-if get_match():
-    print(f"In This Simulation multiple people have a birthday on {get_match()}")
-elif get_match() == None:
-    print(f"In This Simultation no one has the same birthday")
-
-
-match_found = 0
-print("Generating 23 random birthdays 100,000 times...")
-input("Press enter to begin...")
-print("Lets run a another 100,000 simulation")
-
-simulations = 100_000
-
-for i in range(simulations):
-    if i % 10000 == 0:
-        print(i, 'simulation run...') 
-
-    if get_match() != None:
-        match_found += 1  # Increment if a match is found
-
-print("100,000 simulations run.")
-
-percentage = (match_found / simulations) * 100
-
-print(
-    f"""
-Out of 100,000 simulations of {n} people, there was a
+        print(f"""
+Out of 100,000 simulations of {self.num_people} people, there was a
 matching birthday in that group {match_found} times. This means
-that {n} people have a {percentage % round(percentage,2)} % chance of
+that {self.num_people} people have a {round(percentage, 2)} % chance of
 having a matching birthday in their group.
 That's probably more that you would think! 
-    """
-    )
+""")
+
+
+def main():
+    """Main function to interact with the user and run the birthday paradox simulation."""
+    while True:
+        try:
+            print("Birthday Paradox, by AI Sweigart al@inventwithpython.com")
+            print("How many birthdays shall I generate? (Max 100)")
+            num_people = int(input('> '))
+            if num_people > 100 or num_people <= 0:
+                raise ValueError("Number of people must be between 1 and 100.")
+        except ValueError as e:
+            print(f"Error: {e}")
+        else:
+            break
+
+    simulation = BirthdaySimulation(num_people)
+
+    if simulation.get_match():
+        print(f"In this simulation, multiple people have a birthday on {simulation.get_match()}")
+    else:
+        print("In this simulation, no one has the same birthday.")
+
+    simulation.run_simulation()
+
+if __name__ == "__main__":
+    main()
