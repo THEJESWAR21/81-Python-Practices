@@ -25,7 +25,7 @@ bitmap = """
 
 """
 print('Bitmap Message, by Al Sweigart al@inventwithpython.com')
-print("Enter the message to display using bitmap")
+print("Enter the message to display using bitmap")  
 message = input("> ")
 if message == "":
     sys.exit()
@@ -38,6 +38,6 @@ for line in bitmap.splitlines():
         if bit_val == ' ':
             print(" ", end="")
         else:
-            # num % num = 0 | num % > lower than num = 0 | num % higher than num = num                
+            # Modulo Logic     
             print(message[bit_index % len(message)], end='')
     print()

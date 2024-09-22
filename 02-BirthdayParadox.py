@@ -40,7 +40,7 @@ while True:
     else:
         break
 
-    
+        
 if get_match():
     print(f"In This Simulation multiple people have a birthday on {get_match()}")
 elif get_match() == None:
