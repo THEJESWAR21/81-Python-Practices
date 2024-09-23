@@ -61,7 +61,6 @@ That's probably more that you would think!
 
 
 def main():
-    """Main function to interact with the user and run the birthday paradox simulation."""
     while True:
         try:
             print("Birthday Paradox, by AI Sweigart al@inventwithpython.com")
