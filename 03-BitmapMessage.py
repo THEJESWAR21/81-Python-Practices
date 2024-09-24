@@ -1,7 +1,5 @@
 import sys
 
-
-
 class BitmapMessage:
     def __init__(self):
         self.bitmap = """
