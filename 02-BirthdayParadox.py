@@ -14,7 +14,6 @@ class Birthday:
         return random_date.strftime('%b') + " " + str(random_date.day)
  
  
-
 class BirthdaySimulation:
     def __init__(self, num_people):
         self.num_people = num_people

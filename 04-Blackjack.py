@@ -1,5 +1,6 @@
+import random
 # Todo
-# [x] - A Function to ge the bet input
+# [x] - A Function to get the bet input
 # [x] - A Function to create all 52 deck of cards
 # [ ] - Give the dealer and player two cards from the deck each 
 # [ ] - Hand Value Calculation
@@ -8,78 +9,44 @@
 # [ ] - win, loss logic
 # [ ] - Error Handling
 
-
-import random
-
 class Blackjack:
-    # Define Constants
     HEARTS = chr(9829)
     DIAMONDS = chr(9830)
     SPADES = chr(9824)
     CLUBS = chr(9827)
-    BACKSIDE = 'backside'
+    BACKSIDE = "backside"
 
-    def __init__(self) -> None:
-        self.bet = self.get_bet()
-        self.deck = self.get_deck()
-        self.PLAYER = 0
-        self.DEALER = 0
+    def __init__(self):
+        self.BET_VALUE = self.get_bet()
+        self.DECK = self.create_deck()
+        self.PlAYER_HAND = []
+        self.DEALER_HAND = []   
 
     def get_bet(self):
-        print('How much do you bet? (1-5000, or QUIT) ')
-        return int(input("> "))
+        print("How much do you bet? (1-5000, or QUIT)")
+        return input("> ")
 
-    def get_deck(self):
+    def create_deck(self):
+        """Create 52 card deck with tuples in a list"""
         deck = []
         for suits in (self.HEARTS, self.DIAMONDS, self.SPADES, self.CLUBS):
             for rank in range(2,11):
-                deck.append((str(suits), rank))
-            for rank in ('J','Q','K','A'):
-                deck.append((suits, rank))
-            
+                deck.append((str(rank), suits))
+            for rank in ('J','Q','K',"A"):
+                deck.append((rank, suits))
+
         random.shuffle(deck)
-        print(len(deck))
-        print(deck)
         return deck
     
-    def get_cards(self):
-        while True:
-            DEALER_Card = random.choice(self.deck) 
-            PLAYER_Card = random.choice(self.deck)
-            
-            match DEALER_Card[1]:
-                case 'J', 'Q', 'K':
-                    self.DEALER += 10
-                case 'A':
-                    if self.DEALER + 11 > 21:
-                        self.DEALER += 1
-                    else:
-                        self.DEALER += 11
-                case 2,3,4,5,6,7,8,9,10,11:
-                    self.DEALER += int(DEALER_Card[1])
-    
-            match PLAYER_Card[1]:
-                case 'J', 'Q', 'K':
-                    self.PLAYER += 10
-                    return self.PLAYER
-                case 'A':
-                    if self.PLAYER + 11 > 21:
-                        self.PLAYER += 1
-                        return self.PLAYER
-                    else:
-                        self.PLAYER += 11
-                        return self.PLAYER
-                case 2,3,4,5,6,7,8,9,10,11:
-                    self.PLAYER += int(PLAYER_Card[1])
-                    return self.PLAYER
-                    
-            break
-        
     def play_game(self):
-        self.get_cards()
-        print(self.DEALER)
-        print(self.PLAYER)
+        print("Bet:",self.BET_VALUE)
 
-        
+        # Players get 2 cards 
+        for x in range(2):
+            self.PlAYER_HAND.append(random.choice(self.DECK))
+            self.DEALER_HAND.append(random.choice(self.DECK))
+            
 
+        print(self.PlAYER_HAND)
+        print(self.DEALER_HAND)
 Blackjack().play_game()
