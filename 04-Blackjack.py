@@ -5,8 +5,8 @@ import random
 # [x] - Give the dealer and player two cards from the deck each 
 # [x] - Hand Value Calculation
 # [x] - Game loop for the player moves
-# [ ] - Display hands and cards
 # [ ] - win, loss logic
+# [ ] - Display hands and cards
 # [ ] - Error Handling
 
 class Blackjack:
@@ -57,7 +57,7 @@ class Blackjack:
         else:
             self.calculate_dealer_hand()
             print(f"Dealer's Hand Value: {self.DEALER}")
-        
+
 
     def calculate_player_hand(self):
         self.PLAYER = 0
@@ -71,6 +71,10 @@ class Blackjack:
             elif card == 'A':
                 aces += 1
                 self.PLAYER += 11
+        
+        while self.PLAYER > 21 and aces:
+            self.PLAYER -= 10
+            aces -= 1
         
 
     def calculate_dealer_hand(self):
@@ -88,6 +92,9 @@ class Blackjack:
                 aces += 1
                 self.DEALER += 11
                 
+        while self.DEALER > 21 and aces:
+            self.DEALER -= 10
+            aces -= 1
 
     def player_turn(self):
         while True:
@@ -100,12 +107,11 @@ class Blackjack:
                 if self.PLAYER >= 21:
                     print("BUST! You went over 21")
                     break
-                else:
-                    self.dealer_turn()
 
             elif move == "S":
                 self.dealer_turn()
                 break
+
             elif move == "D":
                 self.BET_VALUE = self.BET_VALUE * 2
                 print(self.BET_VALUE)
@@ -125,13 +131,24 @@ class Blackjack:
         print("\nDealer's turn.")
         self.DEALER_HAND[0] = random.choice(self.DECK)
         self.calculate_dealer_hand()
-        print("Dealer's Hand:", self.DEALER_HAND)        
-        print("Dealer's Hand Value:", self.DEALER_HAND)        
+
         while self.DEALER < 17:
             self.DEALER_HAND.append(random.choice(self.DECK))
-            self.calculate_dealer_hand()
-            print("Dealer's Hand:", self.DEALER_HAND)
-            print("Dealer's Hand Value:", self.DEALER)
+            self.DEALER_HAND()
+            self.display_hands()
+    
+        self.check_winner()
+    
+    def check_winner(self):
+        if self.DEALER > 21:
+            print("Dealer busts! You win!")
+        elif self.PLAYER > self.DEALER:
+            print("You win with a hand value of", self.PLAYER)
+
+        elif self.DEALER > self.PLAYER:
+            print("Dealer wins with a hand value of", self.DEALER)
+        else:
+            print("It's a tie!")
 
 
     def play_game(self):
