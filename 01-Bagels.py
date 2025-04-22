@@ -1,59 +1,24 @@
 import random
 
-answer = str(random.randint(100,1000))
+answer = random.randint(100,999)
+print(answer)
+clues =  []
+for num in range(1,11):
+    print(f"Guess #{num}:")
+    guess = str(input("> "))
+    if guess == clues:
+        print("You got it!")
 
+    for i in range(len(clues)):
+        if guess[i] == clues[i]:
+            clues.append('Fermi')
+        elif guess[i] in clues:
+            clues.append('Pico')
+        print(clues)
 
-def play_game():
-    print("""
-Bagels, a deductive logic game.
-By Al Sweigart al@inventwithpython.com
-I am thinking of a 3-digit number. Try to guess what it is.
-Here are some clues:
-When I say:    That means:
-  Pico         One digit is correct but in the wrong position.
-  Fermi        One digit is correct and in the right position.
-  Bagels       No digit is correct.
-I have thought up a number.
- You have 10 guesses to get it.
-""")
-    
-    for num in range(1,11):
-        clues = []
-        print(f"Guess #{num}")
-        guess = str(input("> "))
-
-        for i in range(len(guess)):
-            if guess == answer:
-                print("You Got It!")
-                play_again()
-                break
-            elif guess[i] == answer[i]:
-                clues.append("Fermi")
-            elif guess[i] in answer and guess[i] != answer[i]:
-                clues.append("Pico")
-        if len(clues) == 0:
-            print("Bagels")
-
-        clues.sort()
-        print(" ".join(clues))
-    
-
-    print("You ran out guess.")
-    print("The answer was {}".format(answer))
-
-def play_again():
-    print("")
-    print("Do you want to play again? (yes or no)")
-    reponse = input("> ")
-
-    if reponse == "yes" or reponse == "Yes":
-        play_game()
-    else:
-        print("Thanks for playing!")
-        exit()
         
 
-if __name__ == "__main__":
-    play_game()
+    if len(clues) == 0:
+        clues.append("Bagels")
 
 
