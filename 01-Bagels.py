@@ -1,48 +1,52 @@
 import random
 
-numDigits = 3
-secretNum = str(701)
-print(secretNum)
+secretNum = str(random.randrange(100,1000))
+numDigit = 3
 
-print(
-'''Bagels, a deductive logic game.
- By Al Sweigart al@inventwithpython.com
-  
- I am thinking of a {}-digit number with no repeated digits.
- Try to guess what it is. Here are some clues:
- When I say:    That means:
-    Pico         One digit is correct but in the wrong position.
-    Fermi        One digit is correct and in the right position.
-    Bagels       No digit is correct.
-  
- For example, if the secret number was 248 and your guess was 843, the
- clues would be Fermi Pico.'''.format(numDigits))
+def header():
+    print("""Bagels, a deductive logic game.
+By Al Sweigart al@inventwithpython.com
+I am thinking of a 3-digit number. Try to guess what it is.
+Here are some clues:
+When I say:    That means:
+Pico         One digit is correct but in the wrong position.
+Fermi        One digit is correct and in the right position.
+Bagels       No digit is correct.
+I have thought up a number.
+You have 10 guesses to get it.""")
 
-for num in range(1,11):
-    print(f"Guess #{num}:")
-    guess = str(input("> "))
+def main():
+    clues = []
+    for count in range(1,11):
+        print("")
+        print(f"Guess #{count}")
+        guess = input("> ")
 
-    try:
-        clues = []
-        for i in range(len(secretNum)):
-            if guess[i] == secretNum[i]:
-                clues.append("Fermi")
-            elif guess[i] in secretNum:
-                clues.append("Pico")
-    
-        print(*clues)
         if guess == secretNum:
-            print("You got it!")
+            print("You Won")
             break
-        elif num == 10:
-            print(f"You Loss The Secret Number is {secretNum}")
-            print("Thanks For Planning")
-    except Exception as e:
-        print("Error Try Again!")
-        break
+        elif guess.isdigit() == False:
+            print("Only Enter in a Number")
+            continue
+        elif len(guess) > 3 or len(guess) < 3:
+            print("Enter only a 3 digit value, Try Again!")
+            continue
+        else:
+            for i in range(len(guess)):
+                if guess[i] == secretNum[i]:
+                    clues.append("Fermi")
+                elif guess[i] in secretNum:
+                    clues.append("Pico")
+        
+        if len(clues) == 0:
+            print("Bagels")
+        else:
+            clues.sort()
+            print(*clues)
+        
+        clues.clear()
 
-    if len(clues) == 0:
-        clues.append("Bagels")
-    else:
-        clues.sort()
+header()
+main()
 
+print("You are out of tries try again later")
