@@ -15,6 +15,7 @@ Bagels       No digit is correct.
 I have thought up a number.
 You have 10 guesses to get it.""")
 
+print(secretNum)
 def main():
     clues = []
     for count in range(1,11):
