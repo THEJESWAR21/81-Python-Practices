@@ -1,53 +1,73 @@
 import random
 
-secretNum = str(random.randrange(100,1000))
-numDigit = 3
-
-def header():
-    print("""Bagels, a deductive logic game.
-By Al Sweigart al@inventwithpython.com
-I am thinking of a 3-digit number. Try to guess what it is.
-Here are some clues:
-When I say:    That means:
-Pico         One digit is correct but in the wrong position.
-Fermi        One digit is correct and in the right position.
-Bagels       No digit is correct.
-I have thought up a number.
-You have 10 guesses to get it.""")
-
-print(secretNum)
-def main():
-    clues = []
-    for count in range(1,11):
-        print("")
-        print(f"Guess #{count}")
-        guess = input("> ")
-
-        if guess == secretNum:
-            print("You Won")
-            break
-        elif guess.isdigit() == False:
-            print("Only Enter in a Number")
-            continue
-        elif len(guess) > 3 or len(guess) < 3:
-            print("Enter only a 3 digit value, Try Again!")
-            continue
-        else:
-            for i in range(len(guess)):
-                if guess[i] == secretNum[i]:
-                    clues.append("Fermi")
-                elif guess[i] in secretNum:
-                    clues.append("Pico")
+class BagelGame:
+    def __init__(self, num_digits=3, max_guesses=10):
+        self.num_digits = num_digits
+        self.max_guesses = max_guesses
+        self.secret_number = self._generate_secret_number()
+        self.guess_count = 0
         
-        if len(clues) == 0:
-            print("Bagels")
-        else:
-            clues.sort()
+    def _generate_secret_number(self):
+        return str(random.randrange(100,1000))
+    
+    def display_header(self):
+        print("""Bagels, a deductive logic game.
+        By Al Sweigart al@inventwithpython.com
+        I am thinking of a 3-digit number. Try to guess what it is.
+        Here are some clues:
+        When I say:    That means:
+        Pico         One digit is correct but in the wrong position.
+        Fermi        One digit is correct and in the right position.
+        Bagels       No digit is correct.
+        I have thought up a number.
+        You have 10 guesses to get it.""")
+
+    
+    def get_clues(self, guess):
+        if guess == self.secret_number:
+            return ['You Won']
+        
+        clues = []
+        for i in range(len(guess)):
+            if guess[i] == self.secret_number[i]:
+                clues.append("Fermi")
+            elif guess[i] in self.secret_number:
+                clues.append("Pico")
+
+        if not clues:
+            return ['Bagels']
+        
+        clues.sort()
+        return clues
+    
+    def is_valid_guess(self, guess):
+        return guess.isdigit() and len(guess) == self.num_digits
+    
+    def play_game(self):
+        self.display_header()
+        print("Enter Your Guesses")
+
+        while self.guess_count < self.max_guesses:
+            self.guess_count += 1
+            print(f'\nGuess #{self.guess_count}')
+            guess = input("> ")
+            
+            if not self.is_valid_guess(guess):
+                print('Invalid input. Enter a 3-digit number.')
+                self.guess_count -= 1
+                continue
+
+            clues = self.get_clues(guess)
             print(*clues)
-        
-        clues.clear()
 
-header()
-main()
+            if clues == ['You Won']:
+                break
 
-print("You are out of tries try again later")
+        else:
+            print(f"You are out of tires. The number was {self.secret_number}. Try again Later.")
+
+if __name__ == "__main__":
+    game = BagelGame()
+    game.play_game()
+            
+    
