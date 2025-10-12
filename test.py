@@ -1,12 +1,5 @@
-import datetime
+list1 = [0,1,2,3,4,6,9,99]
+list2 = [0,1,55,66,7,7,9]
 
-date = datetime.date(2025,7,13)
-
-print(date)
-
-fruits = {"apples"}
-
-fruits.add("Mango")
-fruits.add("Mango")
-
-print(fruits)
+commonitems = list(set(list1) & set(list2))
+print(commonitems)

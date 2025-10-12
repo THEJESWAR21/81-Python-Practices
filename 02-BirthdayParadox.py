@@ -1,35 +1,44 @@
 import random
 import datetime
 
-print("How many birthdays shall I Generate? (Max 100)")
-num_birthdays = int(input("> "))
-
-birthdays = set()
+print("How Many Birthdays Shall I Generate? (MAX 100)")
+user_days = int(input("> "))
 
 year = 2025
 
-count = num_birthdays
-for i in range(count):
-    try:
-        month = random.randrange(1,13)
-        day = random.randrange(1,31)
-
-        date = str(datetime.date(year,month,day))
-        birthdays.add(date)
-    except (ValueError):
-        print(f"Skipping {date} due to ValueError")
-        continue
-    else:
-        count -= 1
-    finally:
-        if count == birthdays:
-            break
-        else:
-            continue
+birthdays = []
+birthdays_set = set()
 
 
-print(birthdays)
-print(len(birthdays))
+def generate_birthdays():
+    start_date = datetime.date(year,1,1)
+    end_date = datetime.date(year,12,31)
 
+    days_between = (end_date - start_date).days
+    
+    for i in range(user_days):
+        random_day = random.randint(start_date.day, days_between) # 1 - 364 is the range
+        random_date = start_date + datetime.timedelta(days=random_day)
+
+        birthdays.append(str(random_date.strftime("%b") + " " + str(random_date.day)))
+        birthdays_set.add(str(random_date.strftime("%b") + " " + str(random_date.day)))
+
+def same_birthday():
+    commonality = list(set(birthdays) ^ birthdays_set)
+    commonality_num = len(birthdays) - len(birthdays_set)
+
+    print(commonality)
+    print(commonality_num)
+
+
+def main():
+    generate_birthdays()
+
+    print("Here are 23 Birthdays: ")
+    same_birthday()
+
+
+
+main()
 
 
