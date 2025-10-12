@@ -2,12 +2,14 @@ import random
 import datetime
 import statistics
 
-print("How Many Birthdays Shall I Generate? (MAX 100)")
+print("How Many Birthdays Shall I Generate? (Max 100)")
 user_days = int(input("> "))
 
+# Default Year
 year = 2025
 birthdays = []
 
+## Generates Random Days In an Year and put it in a list
 def generate_birthdays():
     birthdays.clear()
     start_date = datetime.date(year,1,1)
@@ -21,6 +23,8 @@ def generate_birthdays():
 
         birthdays.append(str(random_date.strftime("%b") + " " + str(random_date.day)))
 
+
+## Finds the duplicates in the list
 def finding_duplicates():
     # Unique_birthdays = set(birthdays)
     duplicates = set()
@@ -29,21 +33,26 @@ def finding_duplicates():
             duplicates.add(i)
     return len(duplicates)
 
+# Runs the programe 100,000 to find the probablity 
 def simualtions():
     total_duplicate_count = 0
+
+    print(f"Generating {user_days} random birthdays 100,000 times...")
+    input("Let's run another 100,000 simulations.")
     for i in range(100_001):
         generate_birthdays()
-        count = finding_duplicates()
-        total_duplicate_count += count
+        if len(set(birthdays)) < len(birthdays):
+            total_duplicate_count += 1
 
         if (i % 10_000 == 0 or i == 100_000):
             print(f"{i} simulation run...")
 
-    percentage = (total_duplicate_count / 100_000) * 100
-    print(f"Out of 100,000 simulations of {user_days} people, there was a matching birthday in that group {total_duplicate_count} times. This means""")
-    print(f"{percentage}")
+    probability = round((total_duplicate_count / 100_000) * 100, 2)
+    print(f"Out of 100,000 simulations of {user_days} people, there was a matching birthday in that group {total_duplicate_count} times. This means")
+    print(f"that {user_days} people have a {probability}% chance of having a matching birthday in their group. That's probably more than you would think!")
     return total_duplicate_count
-        
+
+# The Main program that handles and exetures the functions 
 def main():
     generate_birthdays()
 
@@ -55,9 +64,9 @@ def main():
         print(f"\nIn this simulation, multiple people have a birthday on {duplicates_mode}")
     else:
         print("\nNo shared birthdays found in this simulation!") 
-
-    count = finding_duplicates()
     
     simualtions()
 
 main()
+
+# Learn Functional Programming
