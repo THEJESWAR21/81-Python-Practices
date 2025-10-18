@@ -47,5 +47,4 @@ def main():
 main()
 
 # Learn OOP
-# Learn Nested For Loops
-# Learn Print Parameter Values
+# Learn Jump Statements
