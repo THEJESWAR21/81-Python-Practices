@@ -31,10 +31,12 @@ def play_game():
             print("YOU WON!!!")
             Win = True
             break
+        
         else:
             for i in range(3):
                 if (answer[i] == guess[i]):
                     clues.append("Fermi")
+                    
                 elif (answer[i] in guess):
                     clues.append("Pico")
 
